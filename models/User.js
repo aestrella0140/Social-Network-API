@@ -4,16 +4,16 @@ const { Schema, model } = require('mongoose');
 const userSchema = new Schema(
     {
         username: {
-            Type: String,
-            Unique: true,
-            Required: true,
-            Trimmed: true,
+            type: String,
+            unique: true,
+            required: true,
+            trimmed: true,
         },
         email: {
-            Type: String,
-            Required: true,
-            Unique: true,
-            Validate: {
+            type: String,
+            required: true,
+            unique: true,
+            validate: {
                 validator: () => Promise.resolve(false),
                 message: 'Email validation failed'
             }
