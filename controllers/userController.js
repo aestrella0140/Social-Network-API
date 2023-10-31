@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { application } = require('express');
+
 const { User, Thought } = require('../models');
 const { use } = require('../routes/api');
 
@@ -81,7 +81,7 @@ module.exports = {
 
     async deleteFriend(req, res) {
         try {
-            const user = await User.findOneAndDelete(
+            const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
                 { $pull: { friends: { friendId: req.params.friendId } } },
                 { runValidators: true, new: true }
