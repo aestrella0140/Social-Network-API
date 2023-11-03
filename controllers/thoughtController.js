@@ -12,13 +12,14 @@ module.exports = {
     },
 
     async getSingleThought(req, res) {
+        console.log(req.body);
         try {
-            const thought = await Thought.findOne({ _Id: req.params.thoughtId });
+            const thought = await Thought.findOne({ _id: req.params.thoughtId });
 
             if(!thought) {
-                return res.status(404).json(console.log('no application with that ID'));
+                return res.status(404).json(console.log('no thought with that ID'));
             }
-
+            console.log('get thought by id work 1');
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -26,6 +27,7 @@ module.exports = {
     },
 
     async createThought(req, res) {
+
         try {
             const thought = await Thought.create(req.body);
             const user = await User.findOneAndUpdate(
@@ -33,12 +35,12 @@ module.exports = {
                 { $addToSet: { thoughts: thought._id } },
                 { new: true }
             );
-
+                console.log(req.body);
             if(!user) {
-                return res.status(404).json(console.log('application created, but found no user with that ID'))
+                return res.status(404).json(console.log('thought created, but found no user with that ID'))
             }
 
-            res.json('created the application !!!');
+            res.json('created the thought !!!');
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
@@ -48,7 +50,7 @@ module.exports = {
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
-                { _id: req.body.thoughtId },
+                { _id: req.params.thoughtId },
                 { $set: req.body },
                 { runValidators: true, new: true }
             );

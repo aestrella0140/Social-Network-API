@@ -62,14 +62,28 @@ const getRandomUsername = () =>
 `${getRandomArrItem(users)} ${getRandomArrItem(numbers)}`;
 
 const getRandomThought = (int) => {
-    const reactions = [];
+    let reactions = [];
     for (let i = 0; i < int; i++) {
-        reaction.push({
+        reactions.push({
             thoughtText: getRandomArrItem(friendThoughts),
-            reactions: getRandomArrItem(reaction),
+            reactions: [...getReactions(3)],
         });
     }
     return reactions;
+};
+
+const getReactions = (int) => {
+    if (int === 1) {
+        return getRandomArrItem(reaction);
+    }
+    const results = [];
+    for (let i = 0; i < int; i++) {
+        results.push({
+            reactionbody: getRandomArrItem(reaction),
+            username: getRandomUsername(),
+        });
+    }
+    return results;
 };
 
 const getRandomEmail = () => {

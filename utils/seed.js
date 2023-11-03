@@ -13,9 +13,9 @@ connection.once('open', async () => {
     await User.deleteMany({});
 
     const users = [];
+    const thoughts = getRandomThought(10);
 
     for (let i = 0; i < 20; i ++) {
-        const thoughts = getRandomThought(10);
 
         const username = getRandomUsername();
         const email = getRandomEmail();
@@ -31,12 +31,10 @@ connection.once('open', async () => {
 
     await User.collection.insertMany(users);
 
-    await Thought.collection.insertOne({
-        thoughtText: getRandomThought,
-        username: [...users],
-    });
+    await Thought.collection.insertMany(thoughts);
 
     console.table(users);
+    console.table(thoughts);
     console.info('Seeding complete! 🌱');
     process.exit(0);
 });

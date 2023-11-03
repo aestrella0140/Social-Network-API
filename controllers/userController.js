@@ -1,8 +1,4 @@
-const { ObjectId } = require('mongoose').Types;
-
 const { User, Thought } = require('../models');
-const { use } = require('../routes/api');
-
 
 
 module.exports = {
@@ -38,6 +34,7 @@ module.exports = {
     },
 
     async createUser(req, res) {
+        console.log(req.body);
         try {
             const user = await User.create(req.body);
             res.json(user);
@@ -47,13 +44,15 @@ module.exports = {
     },
 
     async deleteUser(req, res) {
+        console.log('delete test 1');
+        console.log(req.body);
         try {
             const user = await User.findOneAndDelete({ _id: req.params.userId });
 
             if (!user) {
                 return res.status(404).json(console.log('couldnt delete user'));
             }
-
+            console.log('delete test 2');
             await Thought.deleteMany({ _id: { $id: user.thoughts } });
             res.json({ message: 'user and associate apps deleted'})
         } catch (err) {
@@ -62,6 +61,7 @@ module.exports = {
     },
 
     async addFriend(req, res) {
+        console.log(req.body);
         try {
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
